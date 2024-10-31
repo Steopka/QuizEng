@@ -6,8 +6,8 @@ export let value = '';
 </script>
 
 
-<label for="quizeng-text"></label>
-<input type="password" class="input" id="quizeng-text" placeholder='{placeholder}' bind:value={value}>
+<label for="quizeng-password"></label>
+<input type="password" class="input" id="quizeng-password" placeholder='{placeholder}' bind:value={value}>
 
 
 <style>

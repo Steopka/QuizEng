@@ -1,8 +1,16 @@
 <script>
-    export let btnTitle = 'push me'
+    let btnTitle = 'push me'
 </script>
 
+
+
+
+
 <button type='submit'>{btnTitle}</button>
+
+
+
+
 
 <style>
 

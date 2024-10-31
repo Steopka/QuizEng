@@ -1,5 +1,5 @@
 <script>
-   import Form from "./components/FormAuthorization.svelte"
+   import Form from "../components/form/FormAuthorization.svelte"
 
    const handleFormSubmit = (data) => {
       console.log('Данные формы:', data.detail)
@@ -14,6 +14,7 @@
 
 <style>
    main {
+      position: relative;
       text-align: center;
       padding: 1em;
       max-width: 240px;

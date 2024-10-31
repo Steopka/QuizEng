@@ -9,7 +9,7 @@
 
 // export default app;
 
-import Authorization from './Authorization.svelte';
+import Authorization from './frontend/pages/Authorization.svelte';
 
 const app = new Authorization({
 	target: document.body,
