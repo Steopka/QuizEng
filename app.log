@@ -1,0 +1,11 @@
+2024-12-14 13:07:17 - __main__ - DEBUG - Ёто сообщение отладки
+2024-12-14 13:07:17 - __main__ - INFO - Ёто информационное сообщение
+2024-12-14 13:07:17 - __main__ - WARNING - Ёто предупреждение
+2024-12-14 13:07:17 - __main__ - ERROR - Ёто сообщение об ошибке
+2024-12-14 13:07:17 - __main__ - CRITICAL - Ёто критическое сообщение
+2024-12-14 13:07:17 - __main__ - ERROR - ѕроизошло исключение
+Traceback (most recent call last):
+  File "C:\Users\Stepan\QuizEng\QuizEng-1\logging_example.py", line 21, in <module>
+    1 / 0
+    ~~^~~
+ZeroDivisionError: division by zero
