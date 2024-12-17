@@ -1,51 +1,60 @@
 <?php
 header('Content-Type: application/json');
 
+// Параметры подключения к базе данных
 $servername = "localhost";
-$username = "myuser";
-$password = "mypassword";
-$dbname = "mydatabase";
+$username = "root";
+$password = "";
+$dbname = "admins_and_users";
 
-// Создаем подключение
+// Создание подключения
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Проверяем подключение
+// Проверка подключения
 if ($conn->connect_error) {
-    die(json_encode(["error" => "Connection failed: " . $conn->connect_error]));
+    die(json_encode(["error" => "Подключение не удалось: " . $conn->connect_error]));
 }
 
-// Обработка GET-запроса для получения всех администраторов
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $sql = "SELECT * FROM admins";
-    $result = $conn->query($sql);
+// Получение данных из запроса
+$data = json_decode(file_get_contents('.json'), true);
 
-    $admins = [];
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            $admins[] = $row;
+// Определение типа запроса
+$request_type = $_SERVER['REQUEST_METHOD'];
+
+if ($request_type == 'POST') {
+    if (isset($data['type']) && $data['type'] == 'user') {
+        // Добавление пользователя
+        $first_name = $data['first_name'];
+        $last_name = $data['last_name'];
+        $unique_id = uniqid();
+
+        $sql = "INSERT INTO users (first_name, last_name, unique_id) VALUES ('$first_name', '$last_name', '$unique_id')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(["message" => "Пользователь добавлен успешно", "unique_id" => $unique_id]);
+        } else {
+            echo json_encode(["error" => "Ошибка: " . $sql . "<br>" . $conn->error]);
         }
-    }
-    echo json_encode($admins);
-}
+    } elseif (isset($data['type']) && $data['type'] == 'admin') {
+        // Добавление администратора
+        $first_name = $data['first_name'];
+        $last_name = $data['last_name'];
+        $unique_id = uniqid();
 
-// Обработка POST-запроса для добавления нового администратора
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents('php://input'), true);
+        $sql = "INSERT INTO admins (first_name, last_name, unique_id) VALUES ('$first_name', '$last_name', '$unique_id')";
 
-    $first_name = $data['first_name'];
-    $last_name = $data['last_name'];
-    $group_name = $data['group_name'];
-    $plain_password = $data['password'];
-    $hashed_password = password_hash($plain_password, PASSWORD_DEFAULT);
-
-    $sql = "INSERT INTO admins (first_name, last_name, group_name, password) VALUES ('$first_name', '$last_name', '$group_name', '$hashed_password')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo json_encode(["message" => "New record created successfully"]);
+        if ($conn->query($sql) === TRUE) {
+            echo json_encode(["message" => "Администратор добавлен успешно", "unique_id" => $unique_id]);
+        } else {
+            echo json_encode(["error" => "Ошибка: " . $sql . "<br>" . $conn->error]);
+        }
     } else {
-        echo json_encode(["error" => "Error: " . $sql . "<br>" . $conn->error]);
+        echo json_encode(["error" => "Неверный тип запроса"]);
     }
+} else {
+    echo json_encode(["error" => "Метод запроса не поддерживается"]);
 }
 
+// Закрытие подключения
 $conn->close();
 ?>
