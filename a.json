@@ -1,5 +1,5 @@
 {
-    "type": "admin",
-    "first_name": "Админ",
-    "last_name": "Админов"
+    "type": "user",
+    "first_name": "John",
+    "last_name": "Doe"
 }
